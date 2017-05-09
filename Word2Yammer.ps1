@@ -11,7 +11,7 @@
 
 param (
     [string]$Path = $null,
-    [switch]$Version
+    [switch]$Version = $true
 )
 
 function Word2Text {
@@ -117,18 +117,13 @@ function YammerizeText {
 
 [decimal]$scriptVersion=1.00
 
-if ($Path -eq $null) {
-    Write-Output "Run the script as .\Word2Yammer.ps -Path MyWordsToTheWorld.docx"
-    exit 0
-}
-
 if ($Version) {
     $scriptCode = (New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/svdoever/Word2Yammer/master/Word2Yammer.ps1')
-    $match = $scriptCode.Split('`n') | Select-String -pattern '[decimal]$scriptVersion=' -SimpleMatch
+    $match = $scriptCode.Split("`n") | Select-String -pattern '[decimal]$scriptVersion=' -SimpleMatch
 
-    # Format the version numbers of the to 2 decimal places
-    $oldVersion = "{0:N2}" -f $version
-    $currentVersion = "{0:N2}" -f [decimal]$Match.line.Split("=")[1]
+    # Format the version numbers of the two to 2 decimal places
+    $oldVersion = "{0:N2}" -f $scriptVersion
+    $currentVersion = "{0:N2}" -f [decimal]$match.line.Split("=")[1]
 
     Write-Verbose "Your Version is $oldVersion"
     Write-Verbose "Latest Version is $currentVersion"
@@ -141,6 +136,13 @@ if ($Version) {
     }
     exit 0
 }
+
+if ($Path -eq $null -or $Path -eq "") {
+    Write-Host "Run the script as .\Word2Yammer.ps1 -Path MyWordsToTheWorld.docx"
+    Write-Host "Run .\Word2Yammer.ps1 -Version to check for newer version"
+    exit 0
+}
+
 $ResolvedPath = Resolve-Path -Path $Path
 if ($ResolvedPath -eq $null) { 
     Write-Error "The specified path '$Path' does not exist."
