@@ -14,7 +14,7 @@ You can now leverage all the power of Word like spell‑checking, text formattin
 
 # Download
 
-The PowerShell script Word2Yammer.ps1 can be downloaded [here](https://github.com/svdoever/Word2Yammer/blob/master/Word2Yammer.ps1).
+The PowerShell script Word2Yammer.ps1 can be downloaded [here](https://raw.githubusercontent.com/svdoever/Word2Yammer/master/Word2Yammer.ps1).
 
 # Usage 
 
