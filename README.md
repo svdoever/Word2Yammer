@@ -21,7 +21,7 @@ You can now leverage all the power of Word like spell‑checking, text formattin
 3. Run ```Get-ExecutionPolicy```. If it returns ```Restricted```, then run ```Set-ExecutionPolicy AllSigned``` or ```Set-ExecutionPolicy Bypass```
 4. Now run the following command to install the ```Word2Yammer.ps``` script in the ```YammerPosts``` folder:
    ```
-   (New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/svdoever/Word2Yammer/master/Word2Yammer.ps1') > Word2Yammer.ps1
+   (New-Object System.Net.WebClient).DownloadString('https://rawgit.com/svdoever/Word2Yammer/master/Word2Yammer.ps1') > Word2Yammer.ps1
    ```
 
 # Usage 
@@ -33,6 +33,12 @@ From the PowerShell console run the script with:
 ```
 
 which will result in a file ```MyWordsToTheWorld.txt``` which can be opened in Notepad and the content can be copied to the Yammer text box.
+
+To check for updates run the script with:
+
+```
+.\Word2Yammer.ps1 ‑Version
+```
 
 # Tips
 

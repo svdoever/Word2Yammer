@@ -11,7 +11,7 @@
 
 param (
     [string]$Path = $null,
-    [switch]$Version = $true
+    [switch]$Version
 )
 
 function Word2Text {
@@ -118,21 +118,21 @@ function YammerizeText {
 [decimal]$scriptVersion=1.00
 
 if ($Version) {
-    $scriptCode = (New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/svdoever/Word2Yammer/master/Word2Yammer.ps1')
+    $scriptCode = (New-Object System.Net.WebClient).DownloadString('https://rawgit.com/svdoever/Word2Yammer/master/Word2Yammer.ps1')
     $match = $scriptCode.Split("`n") | Select-String -pattern '[decimal]$scriptVersion=' -SimpleMatch
 
     # Format the version numbers of the two to 2 decimal places
     $oldVersion = "{0:N2}" -f $scriptVersion
     $currentVersion = "{0:N2}" -f [decimal]$match.line.Split("=")[1]
 
-    Write-Verbose "Your Version is $oldVersion"
-    Write-Verbose "Latest Version is $currentVersion"
+    Write-Host "Your Version is $oldVersion"
+    Write-Host "Latest Version is $currentVersion"
 
     #  Compare the two version numbers and overwrite the old one with the new one.
     If ($currentVersion -gt $oldVersion)
     {
         Write-Host "New version available of Word2Yammer.ps1 script. Updating the script with the following command:"
-        Write-Host "(New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/svdoever/Word2Yammer/master/Word2Yammer.ps1') > Word2Yammer.ps1"
+        Write-Host "(New-Object System.Net.WebClient).DownloadString('https://rawgit.com/svdoever/Word2Yammer/master/Word2Yammer.ps1') > Word2Yammer.ps1"
     }
     exit 0
 }
