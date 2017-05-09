@@ -10,7 +10,8 @@
 #Requires -Version 3.0
 
 param (
-    [Parameter(Mandatory=$true)][string]$Path
+    [string]$Path = $null,
+    [switch]$Version
 )
 
 function Word2Text {
@@ -114,6 +115,32 @@ function YammerizeText {
     Out-File -FilePath $Path -InputObject $lines -Encoding "UTF8" 
 }
 
+[decimal]$scriptVersion=1.00
+
+if ($Path -eq $null) {
+    Write-Output "Run the script as .\Word2Yammer.ps -Path MyWordsToTheWorld.docx"
+    exit 0
+}
+
+if ($Version) {
+    $scriptCode = (New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/svdoever/Word2Yammer/master/Word2Yammer.ps1')
+    $match = $scriptCode.Split('`n') | Select-String -pattern '[decimal]$scriptVersion=' -SimpleMatch
+
+    # Format the version numbers of the to 2 decimal places
+    $oldVersion = "{0:N2}" -f $version
+    $currentVersion = "{0:N2}" -f [decimal]$Match.line.Split("=")[1]
+
+    Write-Verbose "Your Version is $oldVersion"
+    Write-Verbose "Latest Version is $currentVersion"
+
+    #  Compare the two version numbers and overwrite the old one with the new one.
+    If ($currentVersion -gt $oldVersion)
+    {
+        Write-Host "New version available of Word2Yammer.ps1 script. Updating the script with the following command:"
+        Write-Host "(New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/svdoever/Word2Yammer/master/Word2Yammer.ps1') > Word2Yammer.ps1"
+    }
+    exit 0
+}
 $ResolvedPath = Resolve-Path -Path $Path
 if ($ResolvedPath -eq $null) { 
     Write-Error "The specified path '$Path' does not exist."
